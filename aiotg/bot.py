@@ -66,10 +66,10 @@ class Bot:
     :param bool default_in_groups: Enables default callback in groups
     :param str proxy: Proxy URL to use for HTTP requests
     :param connector: Custom aiohttp connector
-    :param useTestEnvironment: https://core.telegram.org/bots/features#creating-a-bot-in-the-test-environment
+    :param use_test_environment: https://core.telegram.org/bots/features#creating-a-bot-in-the-test-environment
     """
 
-    useTestEnvironment = False
+    use_test_environment = False
     _running = False
     _offset = 0
 
@@ -82,7 +82,7 @@ class Bot:
         json_deserialize=json.loads,
         default_in_groups=False,
         connector=None,
-        useTestEnvironment = False
+        use_test_environment = False
     ):
         self.api_token = api_token
         self.api_timeout = api_timeout
@@ -94,7 +94,7 @@ class Bot:
         self._cleanups = []
         self._webhook_uuid = None
         self._connector = connector
-        self.useTestEnvironment = useTestEnvironment
+        self.use_test_environment = use_test_environment
 
         def no_handle(mt):
             return lambda chat, msg: logger.debug("no handle for %s", mt)
@@ -427,7 +427,7 @@ class Bot:
 
     async def _api_call(self, method, **params):
         url = "{0}/bot{1}/{2}".format(API_URL, self.api_token, method)
-        if self.useTestEnvironment:
+        if self.use_test_environment:
             # https://api.telegram.org/bot<token>/test/METHOD_NAME
             url = "{0}/bot{1}/test/{2}".format(API_URL, self.api_token, method)
         logger.debug("api_call %s, %s", method, params)
